@@ -1,5 +1,5 @@
 {
-    "name": "action-series-files",
+    "name": "action-series-modules",
     "version": "1.0.0",
     "description": "Action series for Files. Used in the D2L-to-Canvas Converstion tool.",
     "main": "template-files.js",
