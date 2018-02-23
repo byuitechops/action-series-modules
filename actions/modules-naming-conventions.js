@@ -1,7 +1,7 @@
 module.exports = (course, module, callback) => {
 
     /* If the item is marked for deletion, or if it already matches the naming convention, do nothing */
-    if (module.techops.delete === true || /^week\s(0[1-9]|1[0-4])$/gi.test(moduleTitle)) {
+    if (module.techops.delete === true) {
         callback(null, course, module);
         return;
     }
