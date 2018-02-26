@@ -11,6 +11,10 @@ module.exports = (course, module, callback) => {
         name: /student\s*resources/gi,
     }, {
         name: /instructor\s*resources/gi,
+    }, {
+        name: /welcome/gi,
+    }, {
+        name: /syllabus/gi,
     }];
 
     /* The test returns TRUE or FALSE - action() is called if true */
@@ -18,17 +22,34 @@ module.exports = (course, module, callback) => {
 
     /* This is the action that happens if the test is passed */
     function action() {
-        var weekNum = 0;
-        var moduleTitle = module.name;
-        var titleArray = moduleTitle.split(' ');
-    
+        var weekNum = '';
+        var oldName = module.name;
+        var moduleName = module.name;
+        /* Get each word in the title */
+        var titleArray = moduleName.split(' ');
+        /* The title description will come after the lesson number */
+        var titleDescription = moduleName.split(/\d+\D/)[1];
+
         /* Get the week number */
         /* Add 0 to week number if not present */
         titleArray.forEach((item, index) => {
-            if (/week/gi.test(item) || /lesson/gi.test(item)) {
+            if (/(L|W)(1[0-4]|0?\d)(\D|$)/gi.test(item)) {
+                var eachChar = moduleName.split('');
+                eachChar.forEach(theChar => {
+                    if (!isNaN(theChar) && theChar !== ' ') {
+                        weekNum += theChar;
+                    }
+                });
+
+                if (weekNum.length === 1) {
+                    /* Add 0 to the beginning of the number if single digit */
+                    weekNum = weekNum.replace(/^/, '0');
+                }
+
+            } else if (/week/gi.test(item) || /lesson/gi.test(item)) {
                 /* Replace each non-digit with nothing */
                 weekNum = titleArray[index + 1].replace(/\D+/g, '');
-    
+
                 if (weekNum.length === 1) {
                     /* Add 0 to the beginning of the number if single digit */
                     weekNum = weekNum.replace(/^/, '0');
@@ -36,16 +57,22 @@ module.exports = (course, module, callback) => {
             }
         });
 
-        module.name = `Week ${weekNum}`;
+        if (titleDescription) {
+            module.name = `Week ${weekNum}: ${titleDescription.trim()}`;
+        } else {
+            module.name = `Week ${weekNum}`;
+        }
+
         course.log(`${module.techops.type} - Naming Conventions`, {
-            'Title': module.name,
+            'Old Title': oldName,
+            'New Title': module.name,
             'ID': module.id
         });
         callback(null, course, module);
     }
 
     /* if the module title is a weekly module name, call action() */
-    if (!matchedIrrelevant && /(Week|Lesson)\s*(1[0-4]|0?\d(\D|$))/gi.test(moduleTitle)) {
+    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(1[0-4]|0?\d(\D|$))/gi.test(module.name)) {
         action();
     } else {
         callback(null, course, module);

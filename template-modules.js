@@ -3,7 +3,8 @@ const canvas = require('canvas-wrapper');
 
 /* Actions */
 var actions = [
-    require('../actions/modules-publish-settings.js'),
+    // require('./actions/modules-publish-settings.js'),
+    require('./actions/modules-naming-conventions.js'),
 ];
 
 class TechOps {
@@ -40,10 +41,11 @@ function getItems(course, callback) {
 /* Build the PUT object for an item */
 function buildPutObj(module) {
     return {
-        'name': module.display_name,
-        'published': module.published,
-        'unlock_at': module.unlock_at,
-        'position': module.position
+        'module': {
+            'name': module.name,
+            'published': module.published,
+            'position': module.position,
+        }
     };
 }
 
