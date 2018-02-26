@@ -8,12 +8,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/byuitechops/action-series-files.git"
+        "url": "git+https://github.com/byuitechops/action-series-modules.git"
     },
     "author": "Zachary Williams",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/byuitechops/action-series-files/issues"
+        "url": "https://github.com/byuitechops/action-series-modules/issues"
     },
-    "homepage": "https://github.com/byuitechops/action-series-files#readme"
+    "homepage": "https://github.com/byuitechops/action-series-modules#readme"
 }
