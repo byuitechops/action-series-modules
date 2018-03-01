@@ -61,7 +61,7 @@ function deleteItem(course, module, callback) {
 
 /* PUT an item back into Canvas with updates */
 function putItem(course, module, callback) {
-    if (module.delete == true) {
+    if (module.techops.delete === true) {
         deleteItem(course, module, callback);
         return;
     }
