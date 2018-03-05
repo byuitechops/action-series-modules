@@ -8,7 +8,7 @@ module.exports = (course, module, callback) => {
 
     /* Pages to be deleted, in LOWER case */
     var publishSettings = [{
-        name: /instructor\s*resources/gi,
+        name: /instructor\s*resources/i,
         publish: false
     }];
 
