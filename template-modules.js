@@ -3,8 +3,9 @@ const canvas = require('canvas-wrapper');
 
 /* Actions */
 var actions = [
-    // require('./actions/modules-publish-settings.js'),
+    require('./actions/modules-publish-settings.js'),
     require('./actions/modules-naming-conventions.js'),
+    // require('./actions/modules-delete'), // Delete after running all child modules
 ];
 
 class TechOps {
