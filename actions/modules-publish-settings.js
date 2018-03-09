@@ -6,7 +6,7 @@ module.exports = (course, module, callback) => {
         return;
     }
 
-    /* Pages to be deleted, in LOWER case */
+    /* Modules to be published, in LOWER case */
     var publishSettings = [{
         name: /instructor\s*resources/i,
         publish: false
