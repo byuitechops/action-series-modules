@@ -18,7 +18,7 @@ module.exports = (course, module, callback) => {
     /* This is the action that happens if the test is passed */
     function action() {
         module.published = found.publish;
-        course.log(`${module.techops.type} - Publish Settings`, {
+        module.techops.log(`${module.techops.type} - Publish Settings`, {
             'Title': module.name,
             'ID': module.id
         });

@@ -63,7 +63,7 @@ module.exports = (course, module, callback) => {
             module.name = `Week ${weekNum}`;
         }
 
-        course.log(`${module.techops.type} - Naming Conventions`, {
+        module.techops.log(`${module.techops.type} - Naming Conventions`, {
             'Old Title': oldName,
             'New Title': module.name,
             'ID': module.id
