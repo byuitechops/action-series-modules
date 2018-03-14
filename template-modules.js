@@ -55,19 +55,12 @@ function buildPutObj(module) {
     };
 }
 
-function confirmLogs(course, module) {
-    module.techops.logs.forEach(log => {
-        course.log(log.title, log.details);
-    });
-}
-
 function deleteItem(course, module, callback) {
     canvas.delete(`/api/v1/courses/${course.info.canvasOU}/modules/${module.id}`, (err) => {
         if (err) {
             callback(err);
             return;
         }
-        confirmLogs(course, module);
         callback(null, null);
     });
 }
@@ -84,7 +77,6 @@ function putItem(course, module, callback) {
             callback(err);
             return;
         }
-        confirmLogs(course, module);
         callback(null, newItem);
     });
 }
