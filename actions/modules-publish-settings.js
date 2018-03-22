@@ -6,9 +6,9 @@ module.exports = (course, module, callback) => {
         return;
     }
 
-    /* Pages to be deleted, in LOWER case */
+    /* Modules to be published, in LOWER case */
     var publishSettings = [{
-        name: /instructor\s*resources/gi,
+        name: /instructor\s*resources/i,
         publish: false
     }];
 
@@ -18,7 +18,7 @@ module.exports = (course, module, callback) => {
     /* This is the action that happens if the test is passed */
     function action() {
         module.published = found.publish;
-        course.log(`${module.techops.type} - Publish Settings`, {
+        module.techops.log(`${module.techops.type} - Publish Settings`, {
             'Title': module.name,
             'ID': module.id
         });

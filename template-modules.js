@@ -3,8 +3,9 @@ const canvas = require('canvas-wrapper');
 
 /* Actions */
 var actions = [
-    // require('./actions/modules-publish-settings.js'),
+    require('./actions/modules-publish-settings.js'),
     require('./actions/modules-naming-conventions.js'),
+    require('./actions/modules-delete'), // Delete after running all child modules
 ];
 
 class TechOps {
@@ -16,8 +17,25 @@ class TechOps {
         this.getTitle = getTitle;
         this.setTitle = setTitle;
         this.getID = getID;
+        this.logs = [];
         this.delete = false;
         this.type = 'Module';
+    }
+
+    log(title, details) {
+        this.logs.push({ title, details });
+    }
+
+    message(message) {
+        this.logs.push({ title: 'message', details: { message: message }});
+    }
+
+    warning(warning) {
+        this.logs.push({ title: 'warning', details: { warning: warning }});
+    }
+
+    error(error) {
+        this.logs.push({ error: error });
     }
 }
 
