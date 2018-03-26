@@ -81,7 +81,7 @@ module.exports = (course, canvasModule, callback) => {
     }
 
     /* if the module title is a weekly module name, call action() */
-    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(1[0-4]|0?\d(\D|$))/gi.test(canvasModule.name)) {
+    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(\d*(\D|$))/gi.test(canvasModule.name)) {
         action();
     } else {
         callback(null, course, canvasModule);
