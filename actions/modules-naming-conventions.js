@@ -1,8 +1,8 @@
-module.exports = (course, module, callback) => {
+module.exports = (course, canvasModule, callback) => {
 
     /* If the item is marked for deletion, or if it already matches the naming convention, do nothing */
-    if (module.techops.delete === true) {
-        callback(null, course, module);
+    if (canvasModule.techops.delete === true) {
+        callback(null, course, canvasModule);
         return;
     }
 
@@ -18,13 +18,21 @@ module.exports = (course, module, callback) => {
     }];
 
     /* The test returns TRUE or FALSE - action() is called if true */
-    var matchedIrrelevant = irrelevantModules.find(item => item.name.test(module.name));
+    var matchedIrrelevant = irrelevantModules.find(item => item.name.test(canvasModule.name));
 
     /* This is the action that happens if the test is passed */
     function action() {
         var weekNum = '';
-        var oldName = module.name;
-        var moduleName = module.name;
+
+        /* If the module doesn't have a name, move to the next grandchild */
+        if (!canvasModule.name) {
+            course.warning('This module has no name');
+            callback(null, course, canvasModule);
+            return;
+        }
+
+        var oldName = canvasModule.name;
+        var moduleName = canvasModule.name;
         /* Get each word in the title */
         var titleArray = moduleName.split(' ');
         /* The title description will come after the lesson number */
@@ -46,7 +54,7 @@ module.exports = (course, module, callback) => {
                     weekNum = weekNum.replace(/^/, '0');
                 }
 
-            } else if (/week/gi.test(item) || /lesson/gi.test(item)) {
+            } else if (/week|lesson/gi.test(item) && typeof titleArray[index + 1] !== 'undefined') {
                 /* Replace each non-digit with nothing */
                 weekNum = titleArray[index + 1].replace(/\D+/g, '');
 
@@ -58,24 +66,25 @@ module.exports = (course, module, callback) => {
         });
 
         if (titleDescription) {
-            module.name = `Week ${weekNum}: ${titleDescription.trim()}`;
+            canvasModule.name = `Week ${weekNum}: ${titleDescription.trim()}`;
         } else {
-            module.name = `Week ${weekNum}`;
+            canvasModule.name = `Week ${weekNum}`;
         }
 
-        module.techops.log(`${module.techops.type} - Naming Conventions`, {
+        canvasModule.techops.log(`${canvasModule.techops.type} - Naming Conventions`, {
             'Old Title': oldName,
-            'New Title': module.name,
-            'ID': module.id
+            'New Title': canvasModule.name,
+            'ID': canvasModule.id
         });
-        callback(null, course, module);
+
+        callback(null, course, canvasModule);
     }
 
     /* if the module title is a weekly module name, call action() */
-    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(1[0-4]|0?\d(\D|$))/gi.test(module.name)) {
+    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(\d*(\D|$))/gi.test(canvasModule.name)) {
         action();
     } else {
-        callback(null, course, module);
+        callback(null, course, canvasModule);
     }
 
 };
