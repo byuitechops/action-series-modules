@@ -1,7 +1,7 @@
 module.exports = (course, module, callback) => {
 
     /* If the item is marked for deletion, do nothing */
-    if (module.techops.delete == true) {
+    if (module.techops.delete === true) {
         callback(null, course, module);
         return;
     }
@@ -25,7 +25,7 @@ module.exports = (course, module, callback) => {
         callback(null, course, module);
     }
 
-    if (found != undefined) {
+    if (found !== undefined) {
         action();
     } else {
         callback(null, course, module);
