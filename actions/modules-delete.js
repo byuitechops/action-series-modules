@@ -19,7 +19,7 @@ module.exports = (course, module, callback) => {
         callback(null, course, module);
     }
 
-    if (found != undefined) {
+    if (found !== undefined) {
         action();
     } else {
         callback(null, course, module);
