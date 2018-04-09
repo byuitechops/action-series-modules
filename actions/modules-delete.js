@@ -10,7 +10,7 @@ module.exports = (course, module, callback) => {
     }
 
     /* Modules to be deleted, in LOWER case */
-    var doomedItems;
+    var doomedItems = [];
     if (course.settings.platform === 'campus') {
         doomedItems = [
             /I-?Learn\s*(3\.0)?\s*Tour/gi,
