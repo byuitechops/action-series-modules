@@ -1,8 +1,11 @@
-module.exports = (course, canvasModule, callback) => {
+module.exports = (course, module, callback) => {
+    //only add the platforms your grandchild should run in
+    var validPlatforms = ['online', 'pathway', 'campus'];
+    var validPlatform = validPlatforms.includes(course.settings.platform);
 
-    /* If the item is marked for deletion, or if it already matches the naming convention, do nothing */
-    if (canvasModule.techops.delete === true) {
-        callback(null, course, canvasModule);
+    /* If the item is marked for deletion or isn't a valid platform type, do nothing */
+    if (module.techops.delete === true || validPlatform !== true) {
+        callback(null, course, module);
         return;
     }
 
@@ -18,21 +21,21 @@ module.exports = (course, canvasModule, callback) => {
     }];
 
     /* The test returns TRUE or FALSE - action() is called if true */
-    var matchedIrrelevant = irrelevantModules.find(item => item.name.test(canvasModule.name));
+    var matchedIrrelevant = irrelevantModules.find(item => item.name.test(module.name));
 
     /* This is the action that happens if the test is passed */
     function action() {
         var weekNum = '';
 
         /* If the module doesn't have a name, move to the next grandchild */
-        if (!canvasModule.name) {
+        if (!module.name) {
             course.warning('This module has no name');
-            callback(null, course, canvasModule);
+            callback(null, course, module);
             return;
         }
 
-        var oldName = canvasModule.name;
-        var moduleName = canvasModule.name;
+        var oldName = module.name;
+        var moduleName = module.name;
         /* Get each word in the title */
         var titleArray = moduleName.split(' ');
         /* The title description will come after the lesson number */
@@ -66,25 +69,25 @@ module.exports = (course, canvasModule, callback) => {
         });
 
         if (titleDescription) {
-            canvasModule.name = `Week ${weekNum}: ${titleDescription.trim()}`;
+            module.name = `Week ${weekNum}: ${titleDescription.trim()}`;
         } else {
-            canvasModule.name = `Week ${weekNum}`;
+            module.name = `Week ${weekNum}`;
         }
 
-        canvasModule.techops.log(`${canvasModule.techops.type} - Naming Conventions`, {
+        module.techops.log(`${module.techops.type} - Naming Conventions`, {
             'Old Title': oldName,
-            'New Title': canvasModule.name,
-            'ID': canvasModule.id
+            'New Title': module.name,
+            'ID': module.id
         });
 
-        callback(null, course, canvasModule);
+        callback(null, course, module);
     }
 
     /* if the module title is a weekly module name, call action() */
-    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(\d*(\D|$))/gi.test(canvasModule.name)) {
+    if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(\d*(\D|$))/gi.test(module.name)) {
         action();
     } else {
-        callback(null, course, canvasModule);
+        callback(null, course, module);
     }
 
 };
