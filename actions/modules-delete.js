@@ -8,13 +8,19 @@ module.exports = (course, module, callback) => {
         callback(null, course, module);
         return;
     }
-    
+
     /* Modules to be deleted, in LOWER case */
-    var doomedItems = [
-        /\s*welcome\s*/gi,
-        /^\s*resources\s*$/gi,  // ^ and $ to prevent it from deleting "Student Resources" and "Instructor Resources"
-        /I-?Learn\s*(3\.0)?\s*Tour/gi,
-    ];
+    var doomedItems;
+    if (course.settings.platform === 'campus') {
+        doomedItems = [
+            /I-?Learn\s*(3\.0)?\s*Tour/gi,
+        ];
+    } else {
+        doomedItems = [
+            /\s*welcome\s*/gi,
+            /^\s*resources\s*$/gi, // ^ and $ to prevent it from deleting "Student Resources" and "Instructor Resources"
+        ];
+    }
 
     /* The test returns TRUE or FALSE - action() is called if true */
     var found = doomedItems.find(item => item.test(module.name));
