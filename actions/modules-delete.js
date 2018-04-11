@@ -1,3 +1,9 @@
+/******************************************************************************
+ * Modules Delete
+ * Description: Create an array of module titles and set their delete 
+ * attribute on the TechOps class to true. If the delete attribute is set to 
+ * true, the module will be deleted in action-series-master main.js 
+ ******************************************************************************/
 module.exports = (course, module, callback) => {
     //only add the platforms your grandchild should run in
     var validPlatforms = ['online', 'pathway', 'campus'];
