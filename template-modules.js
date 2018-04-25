@@ -42,7 +42,7 @@ class TechOps {
 /* Retrieve all items of the type */
 function getItems(course, callback) {
     /* Get all of the items from Canvas */
-    canvas.get(`/api/v1/courses/${course.info.canvasOU}/modules`, (err, items) => {
+    canvas.getModules(course.info.canvasOU, (err, items) => {
         if (err) {
             callback(err);
             return;
