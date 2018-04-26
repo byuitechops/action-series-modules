@@ -35,7 +35,7 @@ module.exports = (course, module, callback) => {
             callback(null, course, module);
         }
     } catch (e) {
-        course.error(e);
+        course.error(new Error(e));
         callback(null, course, module);
     }
 };
