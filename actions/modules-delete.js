@@ -26,9 +26,9 @@ module.exports = (course, module, callback) => {
             doomedItems = [
                 /\s*welcome\s*/gi,
                 /^\s*resources\s*$/gi, // ^ and $ to prevent it from deleting "Student Resources" and "Instructor Resources"
+                /I-?Learn\s*(3\.0)?\s*Tour/gi,
             ];
         }
-
         /* The test returns TRUE or FALSE - action() is called if true */
         var found = doomedItems.find(item => item.test(module.name));
 
