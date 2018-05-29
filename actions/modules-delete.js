@@ -52,3 +52,7 @@ module.exports = (course, module, callback) => {
         callback(null, course, module);
     }
 };
+
+module.exports.details = {
+    title: 'modules-delete'
+}
