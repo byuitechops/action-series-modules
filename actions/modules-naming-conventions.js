@@ -1,9 +1,5 @@
 module.exports = (course, module, callback) => {
     try {
-
-
-
-
         /* If the item is marked for deletion, do nothing */
         if (module.techops.delete === true) {
             callback(null, course, module);
@@ -19,6 +15,8 @@ module.exports = (course, module, callback) => {
             name: /welcome/gi,
         }, {
             name: /syllabus/gi,
+        }, {
+            name: /i-learn\s*3.0\s*tour/gi,
         }];
 
         /* The test returns TRUE or FALSE - action() is called if true */
@@ -85,7 +83,7 @@ module.exports = (course, module, callback) => {
         }
 
         /* if the module title is a weekly module name, call action() */
-        if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(\d*(\D|$))/gi.test(module.name)) {
+        if (!matchedIrrelevant && /(Week|Lesson|L|W)\s*(\d+(\D|$))/gi.test(module.name)) {
             action();
         } else {
             callback(null, course, module);
